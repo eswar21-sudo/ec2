@@ -1,0 +1,10 @@
+region          = "us-east-1"
+ami_id          = "ami-0abcdef1234567890"
+instance_type   = "t2.micro"
+subnet_id       = "subnet-12345678"
+security_groups = ["sg-0123456789abcdef0"]
+key_name        = "my-key-pair"
+instance_name   = "my-ec2-instance"
+userdata_s3_url = "https://mybucket.s3.amazonaws.com/userdata.sh?AWSAccessKeyId=AKIAEXAMPLE&Signature=xyz&Expires=1672531199"
+
+

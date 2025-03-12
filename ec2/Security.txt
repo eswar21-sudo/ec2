@@ -1,0 +1,68 @@
+resource "aws_security_group" "ec2_sg" {
+  count  = var.create_security_group ? 1 : 0
+  vpc_id = var.vpc_id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # Allow SSH from anywhere (Change this for security)
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # Allow HTTP
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${var.instance_name}-sg"
+  }
+}
+
+
+modify variable
+variable "create_security_group" {
+  description = "Boolean flag to create a new Security Group"
+  type        = bool
+  default     = false
+}
+
+variable "vpc_id" {
+  description = "VPC ID where Security Group will be created"
+  type        = string
+}
+
+variable "security_groups" {
+  description = "List of existing Security Group IDs (if using existing SG)"
+  type        = list(string)
+  default     = []
+}
+
+update ec2 resource
+
+resource "aws_instance" "ec2" {
+  ami           = var.ami_id
+  instance_type = var.instance_type
+  subnet_id     = var.subnet_id
+  security_groups = var.create_security_group ? [aws_security_group.ec2_sg[0].id] : var.security_groups
+}
+
+.tfvars
+existing
+create_security_group = false
+security_groups       = ["sg-0123456789abcdef0"]
+
+new
+create_security_group = true
+vpc_id                = "vpc-0abcd1234efgh5678"
+security_groups       = []
+

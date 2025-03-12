@@ -1,0 +1,57 @@
+ami
+instance_type
+key_value
+vpc_id
+subnet_id
+public_ip
+security_group
+tags
+storage
+
+options
+
+iam profile
+instance auto recovery
+shutdown behaviour
+termination protection
+stop protection
+Detailed cloudwatch monitoring
+credit specification
+placement group
+instance bandwidth configuration
+purchasing option
+capacity reservation
+tenancy
+Ram disk id
+Kernel id
+Metadata accessible if enable 
+metadata version
+metadata response hop limit
+tags of metadata
+
+
+ami = var.ami_id
+   instance_type = var.instance_type
+   key_name = var.key_name
+   user_data = var.user_data
+   vpc_id = var.vpc_id
+   subnet_id = var.subnet_id
+   associate_public_ip_address = var.public_ip
+   security_groups = var.security_groups
+   user_data = var.user_data
+   associate_public_ip_address = var.public_ip
+   root_block_device {
+i     volume_size           = var.root_volume_size
+     volume_type           = var.root_volume_type
+     encrypted             = var.root_volume_encryption
+     delete_on_termination = true # Ensures volume is deleted when the instance is terminate
+   }
+
+   iam_instance_profile = var.iam_profile
+   auto_recovery = var.auto_recovery
+   instance_initiated_shutdown_behavior = var.shutdown
+
+   tags = {
+  Name = var.instance_name
+
+
